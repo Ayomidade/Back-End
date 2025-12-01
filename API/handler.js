@@ -1,5 +1,6 @@
 import { createProduct, getProduct } from "../Model/product.js";
 import { createUser } from "../Model/user.js";
+import products from "../utils/db.js";
 
 export const usersHandler = (req, res) => {
   try {
@@ -44,6 +45,16 @@ export const newUser = async (req, res) => {
     res.status(500).send({ res: "Internal server error" });
   }
 };
+
+export const allProducts = async (req, res) => {
+  try {
+    const products = products.find({}).toArray();
+    console.log(products); 
+  } catch (error) {
+    res.status(500).send({ res: "Internal Server Error" });
+  }
+};
+
 
 // export async function newUser(req, res)  {
 //   const { userName, email } = req.body;
