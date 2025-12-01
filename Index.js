@@ -1,5 +1,4 @@
 import express, { json, urlencoded } from "express";
-// import bodyParser from "body-parser";
 import route from "./route/routes.js";
 
 export const app = express(); // instance of my express back-end application
