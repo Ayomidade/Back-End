@@ -33,9 +33,6 @@ function decipherFunc(enc) {
       const decipher = createDecipheriv(algorithm, key, iv);
       let result = decipher.update(enc, "hex", "utf-8");
       result += decipher.final("utf-8")
-      // return result;
-      //
-      // console.log(iv);
     });
   });
 }
