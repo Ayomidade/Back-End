@@ -2,6 +2,7 @@ import { createProduct, getProduct } from "../Model/product.js";
 import { createUser, getUser } from "../Model/user.js";
 import products from "../utils/db.js";
 import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
 
 export const usersHandler = async (req, res) => {
   const { email } = req.user;
@@ -40,8 +41,11 @@ export const searchProduct = async (req, res) => {
 
 export const newUser = async (req, res) => {
   const { userName, email } = req.body;
+  let saltRounds = 10;
+  const hashedPasssord = await bcrypt.hash(userName, saltRounds);
+  // console.log(hashedPasssord);
   try {
-    const insertedId = await createUser(userName, email);
+    const insertedId = await createUser(hashedPasssord, email);
     if (insertedId) {
       res.status(200).send({ res: "User account created successfully" });
     }
@@ -56,7 +60,9 @@ export const signIn = async (req, res) => {
 
   try {
     if (result) {
-      if (result.name === name) {
+      const isMatched = await bcrypt.compare(name, result.name);
+
+      if (isMatched) {
         const token = jwt.sign({ email }, "secret", { expiresIn: "5min" });
         res.status(201).send({ message: `Welcome back, ${email}`, token });
       } else {

@@ -16,9 +16,9 @@ const route = Router();
 route.get("/user", auth, usersHandler);
 route.post("/add/new/poduct", newProduct);
 route.post("/sign-in", rateLimiter, signIn);
+route.post("/sign-up", newUser);
 route.get("/", (req, res) => {
   res.sendFile(resolve("static", "Index.html"));
 });
-// route.post()
 
 export default route;
